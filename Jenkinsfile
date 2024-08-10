@@ -1,12 +1,30 @@
 pipeline{
   agent any
 
+  // options{
+    // parallelAlwaysFailFast()
+  // }
+
   stages{
-    stage('build'){
-      steps{
-        echo "Build application ..."
+
+    stage('application build'){
+      failFast true
+
+      parallel{
+        stage('build frontend'){
+          steps{
+            echo "Build frontend ..."
+          }
+        }
+
+        stage('build backend'){
+          steps{
+            echo "Build backend ..."
+          }
+        }
       }
     }
+    
     
     stage('tests'){
       steps{
